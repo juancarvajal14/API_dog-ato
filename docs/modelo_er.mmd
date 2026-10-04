@@ -1,0 +1,117 @@
+erDiagram
+  estado_cita ||--o{ cita : "esta_en"
+  mascota ||--o{ cita : "tiene"
+  veterinario ||--o{ cita : "atiende"
+  cita ||--|o historial_clinico : "registra"
+  propietario ||--o{ mascota : "posee"
+  modulo ||--o{ modulo : "contiene"
+  rol ||--o{ perfil : "agrupa"
+  modulo ||--o{ perfil_modulo_permiso : "sobre"
+  perfil ||--o{ perfil_modulo_permiso : "define"
+  permiso ||--o{ perfil_modulo_permiso : "otorga"
+  tipo_documento ||--o{ propietario : "identifica"
+  tipo_documento ||--o{ usuario : "identifica"
+  perfil ||--o{ usuario_perfil : "tiene"
+  usuario ||--o{ usuario_perfil : "tiene"
+  usuario ||--|o veterinario : "es"
+  tipo_documento {
+    int id_tipo_documento PK
+    string nombre
+    string abreviacion UK
+  }
+  estado_cita {
+    int id_estado_cita PK
+    string nombre UK
+  }
+  rol {
+    int id_rol PK
+    string nombre UK
+    bool activo
+  }
+  perfil {
+    int id_perfil PK
+    int id_rol FK
+    string nombre UK
+    string descripcion  "opcional"
+    bool activo
+  }
+  modulo {
+    int id_modulo PK
+    int id_modulo_padre FK "opcional"
+    string codigo UK
+    string nombre
+    string descripcion  "opcional"
+    string ruta  "opcional"
+    string icono  "opcional"
+    int orden
+    bool activo
+  }
+  permiso {
+    int id_permiso PK
+    string nombre UK
+    string descripcion  "opcional"
+  }
+  perfil_modulo_permiso {
+    int id_perfil PK,FK
+    int id_modulo PK,FK
+    int id_permiso PK,FK
+  }
+  usuario {
+    int id_usuario PK
+    int id_tipo_documento FK
+    string documento
+    string nombres
+    string apellidos
+    string email
+    string telefono  "opcional"
+    string direccion  "opcional"
+    string contrasena_hash
+    bool activo
+    timestamp fecha_creacion
+  }
+  usuario_perfil {
+    int id_usuario PK,FK
+    int id_perfil PK,FK
+  }
+  veterinario {
+    int id_veterinario PK
+    int id_usuario FK
+    string especialidad  "opcional"
+    string registro_profesional  "opcional"
+  }
+  propietario {
+    int id_propietario PK
+    int id_tipo_documento FK
+    string documento
+    string nombres
+    string apellidos
+    string telefono  "opcional"
+    string email  "opcional"
+    string direccion  "opcional"
+    timestamp fecha_creacion
+  }
+  mascota {
+    int id_mascota PK
+    int id_propietario FK
+    string nombre
+    string especie
+    string raza  "opcional"
+    string sexo
+    date fecha_nacimiento  "opcional"
+  }
+  cita {
+    int id_cita PK
+    int id_mascota FK
+    int id_veterinario FK
+    int id_estado_cita FK
+    timestamp fecha_hora
+    text motivo_consulta
+  }
+  historial_clinico {
+    int id_historial_clinico PK
+    int id_cita FK
+    timestamp fecha_registro
+    text diagnostico  "opcional"
+    text tratamiento  "opcional"
+    text observaciones  "opcional"
+  }

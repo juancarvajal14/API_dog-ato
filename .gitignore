@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+.env
+node_modules/
+dist/
+build/
+.DS_Store
+.pytest_cache/
+# Script de producción: se genera bajo demanda con db/generar_produccion.py (no se versiona)
+db/DOG-ATO_produccion.sql
